@@ -122,10 +122,16 @@ public class IntList {
      * as an input, returns null.
      */
     public static IntList reverse(IntList A) {
-        IntList newA = null;
-        while (A != null) {
-            newA = new IntList(A.first, newA);
+        IntList newA = null, ptr = A;
+        while (ptr != null) {
+            newA = new IntList(ptr.first, newA);
+            ptr = ptr.rest;
+        }
+        ptr = newA;
+        while (ptr != null) {
+            A.first = ptr.first;
             A = A.rest;
+            ptr = ptr.rest;
         }
         return newA;
     }

@@ -70,7 +70,7 @@ public class IntListTest {
     public void testReverse() {
         IntList A = IntList.of(1, 2, 3);
         assertEquals(IntList.of(3, 2, 1), IntList.reverse(A));
-        assertNotEquals(IntList.of(1, 2, 3), IntList.reverse(A));
+        assertNotEquals(IntList.of(1, 2, 3), A);
         assertNull(IntList.reverse(null));
     }
 
