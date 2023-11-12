@@ -9,11 +9,10 @@ public class ArrayDeque<T> {
         T[] a;
         if (flag) {
             a = (T[]) new Object[2 * arrayLen];
-        }
-        else {
+        }else {
             a = (T[]) new Object[arrayLen / 2];
         }
-        for (int i = 0, j = nextFirst + 1; i < size; i += 1, modularAdd(j)) {
+        for (int i = 0, j = nextFirst + 1; i < size; i += 1, modularAdd(j, arrayLen)) {
             a[i] = array[j];
         }
         array = a;
@@ -22,16 +21,16 @@ public class ArrayDeque<T> {
         nextLast = size;
     }
 
-    private int modularAdd(int i) {
-        if (i == arrayLen - 1) {
+    private int modularAdd(int i, int n) {
+        if (i == n - 1) {
             i = -1;
         }
         return i + 1;
     }
 
-    private int modularSub(int i) {
+    private int modularSub(int i, int n) {
         if (i == 0) {
-            i = arrayLen;
+            i = n;
         }
         return i - 1;
     }
@@ -50,7 +49,7 @@ public class ArrayDeque<T> {
             resize(true);
         }
         array[nextFirst] = item;
-        modularSub(nextFirst);
+        modularSub(nextFirst, arrayLen);
     }
 
     public void addLast(T item) {
@@ -59,7 +58,7 @@ public class ArrayDeque<T> {
             resize(true);
         }
         array[nextLast] = item;
-        modularAdd(nextLast);
+        modularAdd(nextLast, arrayLen);
     }
 
     public boolean isEmpty() {
@@ -71,11 +70,11 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        int ptr = modularAdd(nextFirst);
+        int ptr = modularAdd(nextFirst, arrayLen);
         for (int i = 0; i < size; i += 1) {
             System.out.print(array[ptr]);
             System.out.print(" ");
-            ptr = modularAdd(ptr);
+            ptr = modularAdd(ptr, arrayLen);
         }
     }
 
@@ -87,7 +86,7 @@ public class ArrayDeque<T> {
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        modularAdd(nextFirst);
+        modularAdd(nextFirst, arrayLen);
         return array[nextFirst];
     }
 
@@ -99,7 +98,7 @@ public class ArrayDeque<T> {
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        modularSub(nextLast);
+        modularSub(nextLast, arrayLen);
         return array[nextLast];
     }
 
