@@ -9,14 +9,15 @@ public class ArrayDeque<T> {
         T[] a;
         if (flag) {
             a = (T[]) new Object[2 * arrayLen];
+            arrayLen *= 2;
         } else {
             a = (T[]) new Object[arrayLen / 2];
+            arrayLen /= 2;
         }
         for (int i = 0, j = nextFirst + 1; i < size; i += 1, j = modularAdd(j, arrayLen)) {
             a[i] = array[j];
         }
         array = a;
-        arrayLen *= 2;
         nextFirst = arrayLen - 1;
         nextLast = size;
     }
