@@ -1,0 +1,112 @@
+public class ArrayDeque<T> {
+    private int size;
+    private T[] array;
+    private int arrayLen;
+    private int nextFirst;
+    private int nextLast;
+
+    private void resize(boolean flag) {
+        T[] a;
+        if (flag) {
+            a = (T[]) new Object[2 * arrayLen];
+        }
+        else {
+            a = (T[]) new Object[arrayLen / 2];
+        }
+        for (int i = 0, j = nextFirst + 1; i < size; i += 1, modularAdd(j)) {
+            a[i] = array[j];
+        }
+        array = a;
+        arrayLen *= 2;
+        nextFirst = arrayLen - 1;
+        nextLast = size;
+    }
+
+    private int modularAdd(int i) {
+        if (i == arrayLen - 1) {
+            i = -1;
+        }
+        return i + 1;
+    }
+
+    private int modularSub(int i) {
+        if (i == 0) {
+            i = arrayLen;
+        }
+        return i - 1;
+    }
+
+    public ArrayDeque() {
+        size = 0;
+        array = (T []) new Object[8];
+        arrayLen = 8;
+        nextFirst = 0;
+        nextLast = 1;
+    }
+
+    public void addFirst(T item) {
+        size += 1;
+        if (size == arrayLen) {
+            resize(true);
+        }
+        array[nextFirst] = item;
+        modularSub(nextFirst);
+    }
+
+    public void addLast(T item) {
+        size += 1;
+        if (size == arrayLen) {
+            resize(true);
+        }
+        array[nextLast] = item;
+        modularAdd(nextLast);
+    }
+
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public void printDeque() {
+        int ptr = modularAdd(nextFirst);
+        for (int i = 0; i < size; i += 1) {
+            System.out.print(array[ptr]);
+            System.out.print(" ");
+            ptr = modularAdd(ptr);
+        }
+    }
+
+    public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
+        size -= 1;
+        if (size <= arrayLen / 4) {
+            resize(false);
+        }
+        modularAdd(nextFirst);
+        return array[nextFirst];
+    }
+
+    public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
+        size -= 1;
+        if (size <= arrayLen / 4) {
+            resize(false);
+        }
+        modularSub(nextLast);
+        return array[nextLast];
+    }
+
+    public T get(int index) {
+        if (index >= size) {
+            return null;
+        }
+        return array[nextFirst + index + 1];
+    }
+}
