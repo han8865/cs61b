@@ -9,10 +9,10 @@ public class ArrayDeque<T> {
         T[] a;
         if (flag) {
             a = (T[]) new Object[2 * arrayLen];
-        }else {
+        } else {
             a = (T[]) new Object[arrayLen / 2];
         }
-        for (int i = 0, j = nextFirst + 1; i < size; i += 1, modularAdd(j, arrayLen)) {
+        for (int i = 0, j = nextFirst + 1; i < size; i += 1, j = modularAdd(j, arrayLen)) {
             a[i] = array[j];
         }
         array = a;
@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
             resize(true);
         }
         array[nextFirst] = item;
-        modularSub(nextFirst, arrayLen);
+        nextFirst = modularSub(nextFirst, arrayLen);
     }
 
     public void addLast(T item) {
@@ -58,7 +58,7 @@ public class ArrayDeque<T> {
             resize(true);
         }
         array[nextLast] = item;
-        modularAdd(nextLast, arrayLen);
+        nextLast = modularAdd(nextLast, arrayLen);
     }
 
     public boolean isEmpty() {
@@ -86,7 +86,7 @@ public class ArrayDeque<T> {
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        modularAdd(nextFirst, arrayLen);
+        nextFirst = modularAdd(nextFirst, arrayLen);
         return array[nextFirst];
     }
 
@@ -98,7 +98,7 @@ public class ArrayDeque<T> {
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        modularSub(nextLast, arrayLen);
+        nextLast = modularSub(nextLast, arrayLen);
         return array[nextLast];
     }
 
