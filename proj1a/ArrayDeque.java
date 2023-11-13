@@ -7,6 +7,7 @@ public class ArrayDeque<T> {
 
     private void resize(boolean flag) {
         T[] a;
+        int lastLen = arrayLen;
         if (flag) {
             a = (T[]) new Object[2 * arrayLen];
             arrayLen *= 2;
@@ -14,7 +15,8 @@ public class ArrayDeque<T> {
             a = (T[]) new Object[arrayLen / 2];
             arrayLen /= 2;
         }
-        for (int i = 0, j = modularAdd(nextFirst, arrayLen); i < size; i += 1, j = modularAdd(j, arrayLen)) {
+        for (int i = 0, j = modularAdd(nextFirst, lastLen); i < size;
+             i += 1, j = modularAdd(j, lastLen)) {
             a[i] = array[j];
         }
         array = a;
