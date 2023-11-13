@@ -85,11 +85,11 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        nextFirst = modularAdd(nextFirst, arrayLen);
         size -= 1;
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        nextFirst = modularAdd(nextFirst, arrayLen);
         return array[nextFirst];
     }
 
@@ -97,11 +97,11 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        nextLast = modularSub(nextLast, arrayLen);
         size -= 1;
         if (size <= arrayLen / 4) {
             resize(false);
         }
-        nextLast = modularSub(nextLast, arrayLen);
         return array[nextLast];
     }
 
@@ -109,6 +109,10 @@ public class ArrayDeque<T> {
         if (index >= size) {
             return null;
         }
-        return array[nextFirst + index + 1];
+        int ptr = modularAdd(nextFirst, arrayLen);
+        for (int i = 0; i < index; i += 1) {
+            ptr = modularAdd(ptr, arrayLen);
+        }
+        return array[ptr];
     }
 }
