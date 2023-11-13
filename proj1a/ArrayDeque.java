@@ -14,7 +14,7 @@ public class ArrayDeque<T> {
             a = (T[]) new Object[arrayLen / 2];
             arrayLen /= 2;
         }
-        for (int i = 0, j = nextFirst + 1; i < size; i += 1, j = modularAdd(j, arrayLen)) {
+        for (int i = 0, j = modularAdd(nextFirst, arrayLen); i < size; i += 1, j = modularAdd(j, arrayLen)) {
             a[i] = array[j];
         }
         array = a;
