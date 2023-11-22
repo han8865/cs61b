@@ -8,8 +8,8 @@ public class Percolation {
     private boolean[][] grids;
     private WeightedQuickUnionUF uf;
 
-    private int[]adjacent(int pos) {
-        return new int[] {pos - 1, pos + 1, pos - N, pos + N};
+    private int[][] adjacent(int row, int col) {
+        return new int[][] {{row - 1, col}, {row + 1, col}, {row, col - 1}, {row, col + 1}};
     }
 
     // create N-by-N grid, with all sites initially blocked
@@ -24,7 +24,7 @@ public class Percolation {
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row < 0 || row >= N || col < 0 || col >= N){
+        if (row < 0 || row >= N || col < 0 || col >= N) {
             throw new java.lang.IndexOutOfBoundsException();
         }
         if (!isOpen(row, col)) {
@@ -35,25 +35,31 @@ public class Percolation {
         if (row == 0) {
             uf.union(pos, N * N);
         }
-        if (row == N) {
+        if (row == N - 1) {
             uf.union(pos, N * N + 1);
         }
-        int[] Adjacent = adjacent(pos);
+        int[][] adjacent = adjacent(row, col);
         for (int i = 0; i < 4; i += 1) {
-            int preAdj = Adjacent[i];
-            if (preAdj >= 0 && preAdj < N * N && isOpen(preAdj / N, preAdj % N)) {
-                uf.union(pos, preAdj);
+            int[] preAdj = adjacent[i];
+            if (preAdj[0] >= 0 && preAdj[0] < N && preAdj[1] >= 0 && preAdj[1] < N && isOpen(preAdj[0], preAdj[1])) {
+                uf.union(pos, preAdj[0] * N + preAdj[1]);
             }
         }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        if (row < 0 || row >= N || col < 0 || col >= N) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
         return grids[row][col];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        if (row < 0 || row >= N || col < 0 || col >= N) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
         return uf.connected(row * N + col, N * N);
     }
 
