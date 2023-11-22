@@ -6,7 +6,7 @@ public class Percolation {
     private int N;
     private int openNum;
     private boolean[][] grids;
-    private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf, uf2;
 
     private int[][] adjacent(int row, int col) {
         return new int[][] {{row - 1, col}, {row + 1, col}, {row, col - 1}, {row, col + 1}};
@@ -20,6 +20,7 @@ public class Percolation {
         this.N = N;
         grids = new boolean[N][N];
         uf = new WeightedQuickUnionUF(N * N + 2);
+        uf2 = new WeightedQuickUnionUF(N * N + 1);
     }
 
     // open the site (row, col) if it is not open already
@@ -34,6 +35,7 @@ public class Percolation {
         int pos = row * N + col;
         if (row == 0) {
             uf.union(pos, N * N);
+            uf2.union(pos, N * N);
         }
         if (row == N - 1) {
             uf.union(pos, N * N + 1);
@@ -41,8 +43,10 @@ public class Percolation {
         int[][] adjacent = adjacent(row, col);
         for (int i = 0; i < 4; i += 1) {
             int[] preAdj = adjacent[i];
-            if (preAdj[0] >= 0 && preAdj[0] < N && preAdj[1] >= 0 && preAdj[1] < N && isOpen(preAdj[0], preAdj[1])) {
+            if (preAdj[0] >= 0 && preAdj[0] < N && preAdj[1] >= 0 && preAdj[1] < N
+                    && isOpen(preAdj[0], preAdj[1])) {
                 uf.union(pos, preAdj[0] * N + preAdj[1]);
+                uf2.union(pos, preAdj[0] * N + preAdj[1]);
             }
         }
     }
@@ -60,7 +64,7 @@ public class Percolation {
         if (row < 0 || row >= N || col < 0 || col >= N) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-        return uf.connected(row * N + col, N * N);
+        return uf2.connected(row * N + col, N * N);
     }
 
     // number of open sites
