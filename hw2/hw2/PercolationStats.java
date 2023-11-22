@@ -20,8 +20,10 @@ public class PercolationStats {
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(N), col = StdRandom.uniform(N);
-                percolation.open(row, col);
-                cnt += 1;
+                if (!percolation.isOpen(row, col)) {
+                    percolation.open(row, col);
+                    cnt += 1;
+                }
             }
             thresholds[i] = cnt / (N * N * 1.0);
         }
