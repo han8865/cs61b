@@ -64,8 +64,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     private void resize() {
-        MyHashMap<K, V> bigMap = new MyHashMap<>(2 * size);
-        for (int i = 0; i < size; i += 1) {
+        MyHashMap<K, V> bigMap = new MyHashMap<>(2 * buckets.length);
+        for (int i = 0; i < buckets.length; i += 1) {
             for (K key : buckets[i]) {
                 bigMap.put(key, buckets[i].get(key));
             }
@@ -98,7 +98,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public Set<K> keySet() {
         Set<K> set = new HashSet<>();
-        for (int i = 0; i < size; i += 1) {
+        for (int i = 0; i < buckets.length; i += 1) {
             for (K key : buckets[i]) {
                 set.add(key);
             }
