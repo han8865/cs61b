@@ -4,7 +4,6 @@ import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
-    private PercolationFactory pf;
     private double[] thresholds;
     private int T;
 
@@ -14,9 +13,9 @@ public class PercolationStats {
             throw new java.lang.IllegalArgumentException();
         }
         this.T = T;
-        int cnt = 0;
         thresholds = new double[T];
         for (int i = 0; i < T; i += 1) {
+            int cnt = 0;
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(N), col = StdRandom.uniform(N);
@@ -46,6 +45,6 @@ public class PercolationStats {
 
     // high endpoint of 95% confidence interval
     public double confidenceHigh() {
-        return mean() - (1.96 * stddev() / Math.sqrt(T));
+        return mean() + (1.96 * stddev() / Math.sqrt(T));
     }
 }
