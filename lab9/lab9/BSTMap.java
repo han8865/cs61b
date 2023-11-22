@@ -139,7 +139,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
                 parentPtr = parentPtr.left;
                 childPtr = childPtr.left;
             }
-            parentPtr.left = null;
+            parentPtr.left = childPtr.right;
             childPtr.left = p.left;
             childPtr.right = p.right;
             return childPtr;
