@@ -1,5 +1,8 @@
 package lab11.graphs;
 
+import edu.princeton.cs.algs4.MinPQ;
+import java.util.*;
+
 /**
  *  @author Josh Hug
  */
@@ -15,23 +18,61 @@ public class MazeAStarPath extends MazeExplorer {
         s = maze.xyTo1D(sourceX, sourceY);
         t = maze.xyTo1D(targetX, targetY);
         distTo[s] = 0;
+        for (int i = 0; i < maze.V(); i += 1) {
+            if (i != s) {
+                distTo[i] = maze.V();
+            }
+        }
         edgeTo[s] = s;
     }
 
     /** Estimate of the distance from v to the target. */
     private int h(int v) {
-        return -1;
+        return Math.abs(maze.toX(v) - maze.toX(t)) + Math.abs(maze.toY(v) - maze.toY(t));
     }
 
-    /** Finds vertex estimated to be closest to target. */
-    private int findMinimumUnmarked() {
-        return -1;
-        /* You do not have to use this method. */
+    private class Coord implements Comparable<Coord> {
+        private int v;
+        private int score;
+
+        public Coord(int v) {
+            this.v = v;
+            this.score = distTo[v] + h(v);
+        }
+
+        @Override
+        public int compareTo(Coord o) {
+            return this.score - o.score;
+        }
     }
 
     /** Performs an A star search from vertex s. */
     private void astar(int s) {
-        // TODO
+        Set<Integer> openSet = new HashSet<>();
+        openSet.add(s);
+        MinPQ<Coord> score = new MinPQ<>();
+        score.insert(new Coord(s));
+        while (!openSet.isEmpty()) {
+            Coord node = score.delMin();
+            marked[node.v] = true;
+            announce();
+            if (node.v == t) {
+                targetFound = true;
+            }
+            if (targetFound) {
+                return;
+            }
+            openSet.remove(node.v);
+            for (int neighbor : maze.adj(node.v)) {
+                int tmpDist = distTo[node.v] + 1;
+                if (tmpDist < distTo[neighbor]) {
+                    edgeTo[neighbor] = node.v;
+                    distTo[neighbor] = tmpDist;
+                    score.insert(new Coord(neighbor));
+                    openSet.add(neighbor);
+                }
+            }
+        }
     }
 
     @Override
