@@ -100,9 +100,10 @@ public class Board implements WorldState {
         if (y == null) return false;
         if (y.getClass() != this.getClass()) return false;
         Board that = (Board) y;
+        if (this.N != that.N) return false;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != that.board[i][j]) {
+                if (this.board[i][j] != that.board[i][j]) {
                     return false;
                 }
             }
@@ -123,5 +124,10 @@ public class Board implements WorldState {
         }
         s.append("\n");
         return s.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
