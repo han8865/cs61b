@@ -1,7 +1,8 @@
 package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Solver {
     private MinPQ<SearchNode> nodes;
@@ -21,7 +22,8 @@ public class Solver {
 
         @Override
         public int compareTo(SearchNode o) {
-            return moves + wState.estimatedDistanceToGoal() - o.moves - o.wState.estimatedDistanceToGoal();
+            return moves + wState.estimatedDistanceToGoal()
+                    - o.moves - o.wState.estimatedDistanceToGoal();
         }
     }
 

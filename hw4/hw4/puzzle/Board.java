@@ -17,7 +17,7 @@ public class Board implements WorldState {
     }
 
     public int tileAt(int i, int j) {
-        if (i < 0 || i >= N || j < 0 || j >=N) {
+        if (i < 0 || i >= N || j < 0 || j >= N) {
             throw new java.lang.IndexOutOfBoundsException();
         }
         return board[i][j];
@@ -63,29 +63,29 @@ public class Board implements WorldState {
     }
 
     public int hamming() {
-        int dist = 0;
+        int hammingDist = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (board[i][j] != i * N + j + 1 && board[i][j] != 0) {
-                    dist += 1;
+                    hammingDist += 1;
                 }
             }
         }
-        return dist;
+        return hammingDist;
     }
 
     public int manhattan() {
-        int dist = 0;
+        int manhattanDist = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 int num = board[i][j];
                 if (num != 0) {
-                    dist += Math.abs(i - (num - 1) / N);
-                    dist += Math.abs(j - (num - 1) % N);
+                    manhattanDist += Math.abs(i - (num - 1) / N);
+                    manhattanDist += Math.abs(j - (num - 1) % N);
                 }
             }
         }
-        return dist;
+        return manhattanDist;
     }
 
     public int estimatedDistanceToGoal() {
@@ -114,11 +114,10 @@ public class Board implements WorldState {
     /** Returns the string representation of the board. */
     public String toString() {
         StringBuilder s = new StringBuilder();
-        int N = size();
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tileAt(i,j)));
+                s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }
