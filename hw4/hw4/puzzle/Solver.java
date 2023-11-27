@@ -60,9 +60,4 @@ public class Solver {
     public Iterable<WorldState> solution() {
         return answer;
     }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
