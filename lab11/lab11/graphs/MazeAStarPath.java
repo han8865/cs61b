@@ -31,17 +31,17 @@ public class MazeAStarPath extends MazeExplorer {
         return Math.abs(maze.toX(v) - maze.toX(t)) + Math.abs(maze.toY(v) - maze.toY(t));
     }
 
-    private class Coord implements Comparable<Coord> {
+    private class Score implements Comparable<Score> {
         private int v;
         private int score;
 
-        public Coord(int v) {
+        public Score(int v) {
             this.v = v;
             this.score = distTo[v] + h(v);
         }
 
         @Override
-        public int compareTo(Coord o) {
+        public int compareTo(Score o) {
             return this.score - o.score;
         }
     }
@@ -50,10 +50,10 @@ public class MazeAStarPath extends MazeExplorer {
     private void astar(int s) {
         Set<Integer> openSet = new HashSet<>();
         openSet.add(s);
-        MinPQ<Coord> score = new MinPQ<>();
-        score.insert(new Coord(s));
+        MinPQ<Score> score = new MinPQ<>();
+        score.insert(new Score(s));
         while (!openSet.isEmpty()) {
-            Coord node = score.delMin();
+            Score node = score.delMin();
             marked[node.v] = true;
             announce();
             if (node.v == t) {
@@ -68,7 +68,7 @@ public class MazeAStarPath extends MazeExplorer {
                 if (tmpDist < distTo[neighbor]) {
                     edgeTo[neighbor] = node.v;
                     distTo[neighbor] = tmpDist;
-                    score.insert(new Coord(neighbor));
+                    score.insert(new Score(neighbor));
                     openSet.add(neighbor);
                 }
             }
