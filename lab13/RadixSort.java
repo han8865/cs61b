@@ -17,6 +17,7 @@ public class RadixSort {
      */
     public static String[] sort(String[] asciis) {
         String[] sorted = new String[asciis.length];
+        System.arraycopy(asciis, 0, sorted, 0, asciis.length);
         int maxLen = 0;
         for (String str : asciis) {
             maxLen = maxLen > str.length() ? maxLen : str.length();
