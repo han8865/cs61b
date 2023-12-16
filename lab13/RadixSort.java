@@ -21,7 +21,7 @@ public class RadixSort {
         for (String str : asciis) {
             maxLen = maxLen > str.length() ? maxLen : str.length();
         }
-        for (int i = 0; i < maxLen; i += 1) {
+        for (int i = maxLen - 1; i >= 0 ; i -= 1) {
             sortHelperLSD(sorted, i);
         }
         return sorted;
